@@ -52,4 +52,24 @@ class SimilarityFinderTest {
         assertEquals(0,result);
     }
 
+    @Test
+    void sequencesAreTheSame()
+    {
+        int[] sequence = {13, 61, 82, 41};
+        SimilarityFinder similarityFinder = new SimilarityFinder((elem, sequence1) ->
+        {
+            SearchResult searchResult = null;
+            if (elem==13)
+                searchResult = SearchResult.builder().withPosition(0).withFound(true).build();
+            if (elem==61)
+                searchResult = SearchResult.builder().withPosition(1).withFound(true).build();
+            if (elem==82)
+                searchResult = SearchResult.builder().withPosition(2).withFound(true).build();
+            if (elem==41)
+                searchResult = SearchResult.builder().withPosition(3).withFound(true).build();
+            return searchResult;
+        });
+        double result = similarityFinder.calculateJackardSimilarity(sequence, sequence);
+        assertEquals(1,result);
+    }
 }
