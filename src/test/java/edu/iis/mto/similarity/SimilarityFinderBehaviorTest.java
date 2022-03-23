@@ -5,9 +5,12 @@ import edu.iis.mto.searcher.SequenceSearcher;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SimilarityFinderBehaviorTest {
     @Test
@@ -64,4 +67,35 @@ class SimilarityFinderBehaviorTest {
         assertEquals(0,amountOfSearches);
     }
 
+    @Test
+    void methodShouldNotChangeSequences() {
+        int[] sequence = {98, -100, 13, 1, 7};
+        int[] secondSequence = {0, -7, -5, 15, 231};
+
+        ArrayList<Integer> secondSequenceChecker = new ArrayList<>();
+        ArrayList<Integer> firstSequenceChecker = new ArrayList<>();
+        SequenceSearcher sequenceSearcher = (elem, seq) -> {
+            firstSequenceChecker.add(elem);
+            if(secondSequenceChecker.isEmpty())
+                secondSequenceChecker.addAll(Arrays.stream(seq).boxed().collect(Collectors.toList()));
+
+            SearchResult searchResult = null;
+            if (elem == 98)
+                searchResult = SearchResult.builder().withPosition(0).withFound(false).build();
+            if (elem == -100)
+                searchResult = SearchResult.builder().withPosition(1).withFound(false).build();
+            if (elem == 13)
+                searchResult = SearchResult.builder().withPosition(2).withFound(false).build();
+            if (elem == 1)
+                searchResult = SearchResult.builder().withPosition(3).withFound(false).build();
+            if (elem == 7)
+                searchResult = SearchResult.builder().withPosition(4).withFound(false).build();
+            return searchResult;
+        };
+        SimilarityFinder similarityFinder = new SimilarityFinder(sequenceSearcher);
+        similarityFinder.calculateJackardSimilarity(sequence,secondSequence);
+
+        assertArrayEquals(firstSequenceChecker.stream().mapToInt(Integer::intValue).toArray(),sequence);
+        assertArrayEquals(secondSequenceChecker.stream().mapToInt(Integer::intValue).toArray(),secondSequence);
+    }
 }
