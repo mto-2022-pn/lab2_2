@@ -95,7 +95,35 @@ class SimilarityFinderTest {
                 searchResult = SearchResult.builder().withPosition(5).withFound(true).build();
             return searchResult;
         });
-        double result = similarityFinder.calculateJackardSimilarity(sequence, sequence);
+        double result = similarityFinder.calculateJackardSimilarity(sequence, secondSequence);
         assertEquals(2.0/(sequence.length+secondSequence.length-2),result);
     }
+
+    @Test
+    void sequencesHaveSimilaritiesButAreDifferentSize()
+    {
+        int[] sequence = {2, 13, 54, 22, 66,12};
+        int[] secondSequence = {2, 13, 54, 22};
+
+        SimilarityFinder similarityFinder = new SimilarityFinder((elem, sequence1) ->
+        {
+            SearchResult searchResult = null;
+            if (elem==2)
+                searchResult = SearchResult.builder().withPosition(0).withFound(true).build();
+            if (elem==13)
+                searchResult = SearchResult.builder().withPosition(1).withFound(true).build();
+            if (elem==54)
+                searchResult = SearchResult.builder().withPosition(2).withFound(true).build();
+            if (elem==22)
+                searchResult = SearchResult.builder().withPosition(3).withFound(true).build();
+            if (elem==66)
+                searchResult = SearchResult.builder().withPosition(4).withFound(false).build();
+            if (elem==12)
+                searchResult = SearchResult.builder().withPosition(5).withFound(false).build();
+            return searchResult;
+        });
+        double result = similarityFinder.calculateJackardSimilarity(sequence, secondSequence);
+        assertEquals(4.0/(sequence.length+secondSequence.length-4),result);
+    }
+
 }
