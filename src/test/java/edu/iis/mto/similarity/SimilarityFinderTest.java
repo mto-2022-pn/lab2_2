@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import edu.iis.mto.searcher.SearchResult;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class SimilarityFinderTest {
@@ -71,5 +70,32 @@ class SimilarityFinderTest {
         });
         double result = similarityFinder.calculateJackardSimilarity(sequence, sequence);
         assertEquals(1,result);
+    }
+
+    @Test
+    void sequencesHaveSomeSimilarities()
+    {
+        int[] sequence = {1, 14, 76, 21, 0, 43};
+        int[] secondSequence = {1, 13, 33, 22, 12, 43};
+
+        SimilarityFinder similarityFinder = new SimilarityFinder((elem, sequence1) ->
+        {
+            SearchResult searchResult = null;
+            if (elem==1)
+                searchResult = SearchResult.builder().withPosition(0).withFound(true).build();
+            if (elem==14)
+                searchResult = SearchResult.builder().withPosition(1).withFound(false).build();
+            if (elem==76)
+                searchResult = SearchResult.builder().withPosition(2).withFound(false).build();
+            if (elem==21)
+                searchResult = SearchResult.builder().withPosition(3).withFound(false).build();
+            if (elem==0)
+                searchResult = SearchResult.builder().withPosition(4).withFound(false).build();
+            if (elem==43)
+                searchResult = SearchResult.builder().withPosition(5).withFound(true).build();
+            return searchResult;
+        });
+        double result = similarityFinder.calculateJackardSimilarity(sequence, sequence);
+        assertEquals(2.0/(sequence.length+secondSequence.length-2),result);
     }
 }
