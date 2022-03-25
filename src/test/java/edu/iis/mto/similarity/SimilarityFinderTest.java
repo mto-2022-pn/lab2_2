@@ -81,5 +81,28 @@ class SimilarityFinderTest {
         sf.calculateJackardSimilarity(seq,seq2);
         assertEquals(expected,sf.calculateJackardSimilarity(seq,seq2));
     }
+    @Test
+    void InvokesZeroTimes(){
+        int [] seq = new int[0];
+        int [] seq2 = new int[]{1,2,6,9,7};
+        int[] invokeCounter = new int[]{0};
+        SimilarityFinder sf = new SimilarityFinder((elem, sequence) ->{
+            invokeCounter[0]++;
+            return SearchResult.builder().build();
+        });
+        assertEquals(seq.length,invokeCounter[0]);
+    }
 
+    @Test
+    void InvokesTwoTimes(){
+        int [] seq = new int[]{1,2};
+        int [] seq2 = new int[]{1,2,6,9,7};
+        int[] invokeCounter = new int[]{0};
+        SimilarityFinder sf = new SimilarityFinder((elem, sequence) ->{
+            invokeCounter[0]++;
+            return SearchResult.builder().build();
+        });
+        sf.calculateJackardSimilarity(seq,seq2);
+        assertEquals(seq.length,invokeCounter[0]);
+    }
 }
