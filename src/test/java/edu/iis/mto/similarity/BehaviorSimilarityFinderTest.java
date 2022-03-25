@@ -1,10 +1,10 @@
 package edu.iis.mto.similarity;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 
-class SimilarityFinderTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class BehaviorSimilarityFinderTest {
 
     @Test
     void test() {
