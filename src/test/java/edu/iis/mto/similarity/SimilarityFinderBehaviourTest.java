@@ -36,5 +36,26 @@ public class SimilarityFinderBehaviourTest {
         assertEquals(2,checkInt);
     }
 
-    
+    @Test
+    void methodInvokesCountTestWithEmptyArray() throws NoSuchFieldException, IllegalAccessException {
+
+        int[] seq = {};
+        int[] seq1 = {1, 2, 3, 4};
+
+        SequenceSearcher sequenceSearcher = new SequenceSearcher() {
+            int count = 0;
+            @Override
+            public SearchResult search(int elem, int[] sequence) {
+                SearchResult searchResult = null;
+                count++;
+                searchResult = SearchResult.builder().build();
+                return searchResult;
+            }
+        };
+        SimilarityFinder similarityFinder = new SimilarityFinder(sequenceSearcher);
+        similarityFinder.calculateJackardSimilarity(seq,seq1);
+        Field check = sequenceSearcher.getClass().getDeclaredField("count");
+        int checkInt = check.getInt(sequenceSearcher);
+        assertEquals(0,checkInt);
+    }
 }
