@@ -38,4 +38,13 @@ class SimilarityFinderTest {
         double result = similarityFinder.calculateJackardSimilarity(seq1, seq2);
         assertEquals(expected, result);
     }
+
+    @Test
+    void SecondSeqEmpty() {
+        int[] seq1 = random.ints(random.nextInt(9999) + 1).toArray();
+        int[] seq2 = {};
+        double expected = DIFFERENT;
+        double result = similarityFinder.calculateJackardSimilarity(seq1, seq2);
+        assertEquals(expected, result);
+    }
 }
