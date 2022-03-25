@@ -1,6 +1,7 @@
 package edu.iis.mto.similarity;
 
 import edu.iis.mto.searcher.SequenceSearcher;
+import org.apache.commons.lang3.SystemUtils;
 
 public class SimilarityFinder {
 
@@ -17,7 +18,6 @@ public class SimilarityFinder {
 
         int intersectSize = calculateIntersect(seq1, seq2);
         int unionSize = seq1.length + seq2.length - intersectSize;
-
         return (double) intersectSize / (double) unionSize;
     }
 

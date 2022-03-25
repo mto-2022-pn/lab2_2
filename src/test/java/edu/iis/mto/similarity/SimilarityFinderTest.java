@@ -35,4 +35,48 @@ class SimilarityFinderTest {
         assertEquals(0,result);
     }
 
+    @Test
+    void sequencesAreTheSame()
+    {
+        int[] seq = {1, 2, 3, 4};
+        int[] seq1 = {1, 2, 3, 4};
+        SimilarityFinder similarityFinder = new SimilarityFinder((elem, sequence) ->
+        {
+            SearchResult searchResult = null;
+            if (elem==1)
+                searchResult = SearchResult.builder().withPosition(0).withFound(true).build();
+            if (elem==2)
+                searchResult = SearchResult.builder().withPosition(1).withFound(true).build();
+            if (elem==3)
+                searchResult = SearchResult.builder().withPosition(2).withFound(true).build();
+            if (elem==4)
+                searchResult = SearchResult.builder().withPosition(3).withFound(true).build();
+            return searchResult;
+        });
+        double result = similarityFinder.calculateJackardSimilarity(seq, seq1);
+        assertEquals(1,result);
+    }
+
+    @Test
+    void sequencesHaveCommonValues()
+    {
+        int[] seq = {1, 2, 3, 4};
+        int[] seq1 = {3, 4, 5, 6,7,8,9,10};
+        SimilarityFinder similarityFinder = new SimilarityFinder((elem, sequence) ->
+        {
+            SearchResult searchResult = null;
+            if (elem==1)
+                searchResult = SearchResult.builder().withPosition(0).withFound(false).build();
+            if (elem==2)
+                searchResult = SearchResult.builder().withPosition(1).withFound(false).build();
+            if (elem==3)
+                searchResult = SearchResult.builder().withPosition(2).withFound(true).build();
+            if (elem==4)
+                searchResult = SearchResult.builder().withPosition(3).withFound(true).build();
+            return searchResult;
+        });
+        double result = similarityFinder.calculateJackardSimilarity(seq, seq1);
+        assertEquals(2.0/(seq.length+seq1.length-2),result);
+    }
+
 }
