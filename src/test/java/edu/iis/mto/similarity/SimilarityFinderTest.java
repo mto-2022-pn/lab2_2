@@ -21,5 +21,15 @@ class SimilarityFinderTest {
         double result=similarityFinder.calculateJackardSimilarity(seq1,seq2);
         assertEquals(expected,result);
     }
+    @Test
+    void OneSequencesIsEmpty() {
+        int[] seq1={1,3,5,7,9};
+        int[] seq2={};
+        double expected=0;
+        double result=similarityFinder.calculateJackardSimilarity(seq1,seq2);
+        assertEquals(expected,result);
+        result=similarityFinder.calculateJackardSimilarity(seq2,seq1);
+        assertEquals(expected,result);
+    }
 
 }
