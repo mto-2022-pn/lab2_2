@@ -38,4 +38,22 @@ public class BehaviorSimilarityFinderTest {
         int invokeCounter = sequenceSearcher.getClass().getDeclaredField("invokeCounter").getInt(sequenceSearcher);
         assertEquals(expected,invokeCounter);
     }
+    @Test
+    void methodInvokeZeroTimes() throws NoSuchFieldException, IllegalAccessException {
+        int[] seq1={};
+        int[] seq2={1,2,3,4,5,6};
+        int expected = 0;
+        SequenceSearcher sequenceSearcher = new SequenceSearcher() {
+            int invokeCounter = 0;
+            @Override
+            public SearchResult search(int elem, int[] sequence) {
+                invokeCounter++;
+                return null;
+            }
+        };
+        SimilarityFinder similarityFinder = new SimilarityFinder(sequenceSearcher);
+        similarityFinder.calculateJackardSimilarity(seq1,seq2);
+        int invokeCounter = sequenceSearcher.getClass().getDeclaredField("invokeCounter").getInt(sequenceSearcher);
+        assertEquals(expected,invokeCounter);
+    }
 }
