@@ -34,7 +34,7 @@ public class SimilarityFinderBehaviorTest {
     @Test
     void TestMethodInvokedZeroTimes() {
         int[] sequence1 = new int[0];
-        int[] sequence2 = {-1, -3, 2, 4, 0};
+        int[] sequence2 = {-1, 3, 22, -34, 30};
         int expected = 0;
         final int[] invocationCounter = { 0 };
         SimilarityFinder similarityFinder = new SimilarityFinder((element, sequence) -> {
