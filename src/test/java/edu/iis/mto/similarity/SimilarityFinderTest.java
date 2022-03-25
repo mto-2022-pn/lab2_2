@@ -73,4 +73,25 @@ class SimilarityFinderTest {
         double result=similarityFinder.calculateJackardSimilarity(seq1,seq2);
         assertEquals(expected,result);
     }
+    @Test
+    void TwoSequencesHaveNoCommonElements() {
+        int[] seq1={7,8,9};
+        int[] seq2={1,2,3,4,5,6};
+        double expected=0;
+        similarityFinder = new SimilarityFinder((elem, sequence) -> {
+            SearchResult searchResult=null;
+            if(elem == 7){
+                searchResult = SearchResult.builder().withPosition(0).withFound(false).build();
+            }
+            if(elem == 8){
+                searchResult = SearchResult.builder().withPosition(1).withFound(false).build();
+            }
+            else if(elem == 9){
+                searchResult = SearchResult.builder().withPosition(2).withFound(false).build();
+            }
+            return searchResult;
+        });
+        double result=similarityFinder.calculateJackardSimilarity(seq1,seq2);
+        assertEquals(expected,result);
+    }
 }
