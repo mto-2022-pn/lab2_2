@@ -38,4 +38,13 @@ class SimilarityFinderTest {
         assertEquals(TOTTALLY_DIFFRENT, res);
     }
 
+    @Test
+    void testArraysDontHaveCommonElements() {
+        SimilarityFinder finder = new SimilarityFinder((element, sequence) -> SearchResult.builder().build());
+        int seq1[] = {0,5,11,15};
+        int seq2[] = {2,3,7,99};
+        double res = finder.calculateJackardSimilarity(seq1, seq2);
+        assertEquals(TOTTALLY_DIFFRENT, res);
+    }
+
 }
