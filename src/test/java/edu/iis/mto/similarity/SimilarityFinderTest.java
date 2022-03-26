@@ -97,4 +97,27 @@ class SimilarityFinderTest {
         double result = similarityFinder.calculateJackardSimilarity(seq1, seq2);
         assertEquals(expected, result);
     }
+
+    @Test
+    void IdentityElements() {
+        int[] seq1 = {6,8,4,2};
+        int[] seq2 = {6,8,4,2};
+        double expected = IDENTITY;
+        SimilarityFinder similarityFinder = new SimilarityFinder(((elem, sequence) -> {
+            switch (elem) {
+                case 6:
+                    return SearchResult.builder().withPosition(0).withFound(true).build();
+                case 8:
+                    return SearchResult.builder().withPosition(1).withFound(true).build();
+                case 4:
+                    return SearchResult.builder().withPosition(2).withFound(true).build();
+                case 2:
+                    return SearchResult.builder().withPosition(3).withFound(true).build();
+                default:
+                    return null;
+            }
+        }));
+        double result = similarityFinder.calculateJackardSimilarity(seq1, seq2);
+        assertEquals(expected, result);
+    }
 }
