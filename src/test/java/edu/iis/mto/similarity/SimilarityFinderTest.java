@@ -73,4 +73,28 @@ class SimilarityFinderTest {
         double result = similarityFinder.calculateJackardSimilarity(seq1, seq2);
         assertEquals(expected, result);
     }
+
+    @Test
+    void HaveCommonElements() {
+        int[] seq1 = {1,5,3,2};
+        int[] seq2 = {6,8,4,2,9,7};
+        int sameElem = 1;
+        double expected = (double) sameElem / (seq1.length + seq2.length - sameElem);
+        SimilarityFinder similarityFinder = new SimilarityFinder(((elem, sequence) -> {
+            switch (elem) {
+                case 1:
+                    return SearchResult.builder().withPosition(0).withFound(false).build();
+                case 5:
+                    return SearchResult.builder().withPosition(1).withFound(false).build();
+                case 3:
+                    return SearchResult.builder().withPosition(2).withFound(false).build();
+                case 2:
+                    return SearchResult.builder().withPosition(3).withFound(true).build();
+                default:
+                    return null;
+            }
+        }));
+        double result = similarityFinder.calculateJackardSimilarity(seq1, seq2);
+        assertEquals(expected, result);
+    }
 }
