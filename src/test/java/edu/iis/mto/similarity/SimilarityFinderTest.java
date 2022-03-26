@@ -116,7 +116,22 @@ class SimilarityFinderTest {
         int seq1[] = { -55, 0, 33, 67, 112, 145 };
         int seq2[] = { -55, 0, 33 };
         finder.calculateJackardSimilarity(seq1, seq2);
-        assertEquals(seq1.length, counter[0]);
+        assertEquals(6, counter[0]);
     }
+
+    @Test
+    void Invoke0Times() {
+        int[] counter = { 0 };
+        SimilarityFinder finder = new SimilarityFinder((element, sequence) -> {
+            counter[0]++;
+            SearchResult result = SearchResult.builder().build();
+            return result;
+        });
+        int seq1[] = {};
+        int seq2[] = { 1,123,214,217 };
+        finder.calculateJackardSimilarity(seq1, seq2);
+        assertEquals(0, counter[0]);
+    }
+
 
 }
