@@ -94,4 +94,29 @@ class SimilarityFinderTest {
         assertEquals(IDENTICAL, res);
     }
 
+    @Test
+    void Invoke6Times() {
+        int[] counter = { 0 };
+        SimilarityFinder finder = new SimilarityFinder((element, sequence) -> {
+            counter[0]++;
+            SearchResult result = SearchResult.builder().build();
+            switch (element) {
+                case -55:
+                    result = SearchResult.builder().withPosition(0).withFound(true).build();
+                    break;
+                case 0:
+                    result = SearchResult.builder().withPosition(1).withFound(true).build();
+                    break;
+                case 33:
+                    result = SearchResult.builder().withPosition(2).withFound(true).build();
+                    break;
+            }
+            return result;
+        });
+        int seq1[] = { -55, 0, 33, 67, 112, 145 };
+        int seq2[] = { -55, 0, 33 };
+        finder.calculateJackardSimilarity(seq1, seq2);
+        assertEquals(seq1.length, counter[0]);
+    }
+
 }
