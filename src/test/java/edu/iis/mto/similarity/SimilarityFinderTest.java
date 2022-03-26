@@ -71,4 +71,27 @@ class SimilarityFinderTest {
         assertEquals(3d / (seq1.length + seq2.length - 3), res);
     }
 
+    @Test
+    void testArraysAreTheSame() {
+        SimilarityFinder finder = new SimilarityFinder((element, sequence) -> {
+            SearchResult result = SearchResult.builder().build();
+            switch (element) {
+                case -55:
+                    result = SearchResult.builder().withPosition(0).withFound(true).build();
+                    break;
+                case 0:
+                    result = SearchResult.builder().withPosition(1).withFound(true).build();
+                    break;
+                case 33:
+                    result = SearchResult.builder().withPosition(2).withFound(true).build();
+                    break;
+            }
+            return result;
+        });
+        int seq1[] = { -55, 0, 33 };
+        int seq2[] = { -55, 0, 33 };
+        double res = finder.calculateJackardSimilarity(seq1, seq2);
+        assertEquals(IDENTICAL, res);
+    }
+
 }
