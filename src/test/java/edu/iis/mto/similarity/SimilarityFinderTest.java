@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 class SimilarityFinderTest {
 
     @Test
-    void BothSequencesAreEmpty() {
+    void bothSequencesAreEmpty() {
         int [] seq = new int[0];
         int [] seq2 = new int[0];
         SimilarityFinder sf = new SimilarityFinder((elem, sequence) -> SearchResult.builder().build());
@@ -17,7 +17,7 @@ class SimilarityFinderTest {
     }
 
     @Test
-    void FirstSequenceIsEmpty() {
+    void firstSequenceIsEmptyCausingResultEqualsZero() {
         int [] seq = new int[0];
         int [] seq2 = new int[]{1,2,3};
         SimilarityFinder sf = new SimilarityFinder((elem, sequence) -> SearchResult.builder().build());
@@ -25,7 +25,7 @@ class SimilarityFinderTest {
     }
 
     @Test
-    void SecondSequenceIsEmpty() {
+    void secondSequenceIsEmptyCausingResultEqualsZero() {
         int [] seq = new int[]{1,2,3};
         int [] seq2 = new int[0];
         SimilarityFinder sf = new SimilarityFinder((elem, sequence) -> SearchResult.builder().build());
@@ -33,7 +33,7 @@ class SimilarityFinderTest {
     }
 
     @Test
-    void SequencesAreTheSame() {
+    void sequencesAreTheSame() {
         int [] seq = new int[]{1,2,3};
         int [] seq2 = new int[]{1,2,3};
         SimilarityFinder sf = new SimilarityFinder((elem, sequence) ->
@@ -48,7 +48,7 @@ class SimilarityFinderTest {
         assertEquals(1.0,sf.calculateJackardSimilarity(seq,seq2));
     }
     @Test
-    void SequencesAreDifferent() {
+    void sequencesAreDifferent() {
         int [] seq = new int[]{1,2,3};
         int [] seq2 = new int[]{4,5,6,9,7};
         SimilarityFinder sf = new SimilarityFinder((elem, sequence) ->
@@ -64,7 +64,7 @@ class SimilarityFinderTest {
     }
 
     @Test
-    void SequencesHaveSomeCommonElements() {
+    void sequencesHaveSomeCommonElements() {
         int [] seq = new int[]{1,2,3};
         int [] seq2 = new int[]{1,2,6,9,7};
         int common = 2;
@@ -82,7 +82,7 @@ class SimilarityFinderTest {
         assertEquals(expected,sf.calculateJackardSimilarity(seq,seq2));
     }
     @Test
-    void InvokesZeroTimes(){
+    void invokesSearchingZeroTimes(){
         int [] seq = new int[0];
         int [] seq2 = new int[]{1,2,6,9,7};
         int[] invokeCounter = new int[]{0};
@@ -94,7 +94,7 @@ class SimilarityFinderTest {
     }
 
     @Test
-    void InvokesTwoTimes(){
+    void invokesSearchingTwoTimes(){
         int [] seq = new int[]{1,2};
         int [] seq2 = new int[]{1,2,6,9,7};
         int[] invokeCounter = new int[]{0};
