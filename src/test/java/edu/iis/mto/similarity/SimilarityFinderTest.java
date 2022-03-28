@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 import edu.iis.mto.searcher.SearchResult;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 class SimilarityFinderTest {
 
     @Test
@@ -71,6 +73,32 @@ class SimilarityFinderTest {
         int[] seq1 = {1, 2, 3};
         int[] seq2 = {2, 3, 4};
         assertEquals(2.0/(seq1.length + seq2.length - 2), similarityFinder.calculateJackardSimilarity(seq1, seq2));
+    }
+
+    @Test
+    void invokeThreeTimes() {
+        AtomicInteger counter = new AtomicInteger();
+        SimilarityFinder similarityFinder = new SimilarityFinder(((elem, sequence) -> {
+            counter.getAndIncrement();
+            return SearchResult.builder().build();
+        }));
+        int[] seq1 = {1, 2, 3};
+        int[] seq2 = {4, 5, 6};
+        similarityFinder.calculateJackardSimilarity(seq1, seq2);
+        assertEquals(3, counter.get());
+    }
+
+    @Test
+    void invokeZeroTimes() {
+        AtomicInteger counter = new AtomicInteger();
+        SimilarityFinder similarityFinder = new SimilarityFinder(((elem, sequence) -> {
+            counter.getAndIncrement();
+            return SearchResult.builder().build();
+        }));
+        int[] seq1 = {};
+        int[] seq2 = {4, 5, 6};
+        similarityFinder.calculateJackardSimilarity(seq1, seq2);
+        assertEquals(0, counter.get());
     }
 
 }
