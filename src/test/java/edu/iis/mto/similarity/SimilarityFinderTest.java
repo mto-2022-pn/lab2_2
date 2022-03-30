@@ -19,9 +19,19 @@ class SimilarityFinderTest {
     }
 
     @Test
-    void firsSeqEmpty(){
+    void firstSeqEmpty(){
         int[] seq1 = new int[0];
         int[] seq2 = new int[]{1,4};
+
+        SimilarityFinder similarityFinder = new SimilarityFinder((elem,seq)->SearchResult.builder().build());
+        double res = similarityFinder.calculateJackardSimilarity(seq1,seq2);
+        assertEquals(0,res);
+    }
+
+    @Test
+    void secondSeqEmpty(){
+        int[] seq1 = new int[]{6,7};
+        int[] seq2 = new int[0];
 
         SimilarityFinder similarityFinder = new SimilarityFinder((elem,seq)->SearchResult.builder().build());
         double res = similarityFinder.calculateJackardSimilarity(seq1,seq2);
