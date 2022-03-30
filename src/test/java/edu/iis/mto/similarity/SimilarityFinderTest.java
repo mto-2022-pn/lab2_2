@@ -18,4 +18,13 @@ class SimilarityFinderTest {
         assertEquals(1,res);
     }
 
+    @Test
+    void firsSeqEmpty(){
+        int[] seq1 = new int[0];
+        int[] seq2 = new int[]{1,4};
+
+        SimilarityFinder similarityFinder = new SimilarityFinder((elem,seq)->SearchResult.builder().build());
+        double res = similarityFinder.calculateJackardSimilarity(seq1,seq2);
+        assertEquals(0,res);
+    }
 }
