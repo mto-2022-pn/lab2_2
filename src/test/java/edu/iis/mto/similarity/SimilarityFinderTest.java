@@ -59,4 +59,26 @@ class SimilarityFinderTest {
         double res = similarityFinder.calculateJackardSimilarity(seq1, seq2);
         assertEquals(1, res);
     }
+
+    @Test
+    void differentSeq() {
+        int[] seq1 = new int[]{1, 5, 9, 3};
+        int[] seq2 = new int[]{8, 4, 8, 7};
+
+        SimilarityFinder similarityFinder = new SimilarityFinder((elem, seq) -> {
+            SearchResult searchResult = SearchResult.builder().build();
+            if (elem == 1) {
+                searchResult = SearchResult.builder().withPosition(0).withFound(false).build();
+            } else if (elem == 5) {
+                searchResult = SearchResult.builder().withPosition(1).withFound(false).build();
+            } else if (elem == 9) {
+                searchResult = SearchResult.builder().withPosition(2).withFound(false).build();
+            } else if (elem == 3) {
+                searchResult = SearchResult.builder().withPosition(4).withFound(false).build();
+            }
+            return searchResult;
+        });
+        double res = similarityFinder.calculateJackardSimilarity(seq1, seq2);
+        assertEquals(0, res);
+    }
 }
