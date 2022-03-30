@@ -37,4 +37,14 @@ class SimilarityFinderTest {
         double res = similarityFinder.calculateJackardSimilarity(seq1,seq2);
         assertEquals(0,res);
     }
+
+    @Test
+    void indenticalSeq(){
+        int[] seq1 = new int[]{1,5,9,3};
+        int[] seq2 = new int[]{1,5,9,3};
+
+        SimilarityFinder similarityFinder = new SimilarityFinder((elem,seq)->SearchResult.builder().build());
+        double res = similarityFinder.calculateJackardSimilarity(seq1,seq2);
+        assertEquals(1,res);
+    }
 }
