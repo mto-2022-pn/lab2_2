@@ -131,4 +131,18 @@ class SimilarityFinderTest {
         assertEquals(res, seq1.length);
     }
 
+    @Test
+    void zeroInvokes(){
+        int[] seq1 = new int[]{};
+        int[] seq2 = new int[]{1, 5, 9, 3};
+        AtomicInteger l = new AtomicInteger();
+        SimilarityFinder similarityFinder = new SimilarityFinder((elem, seq) -> {
+            l.incrementAndGet();
+            SearchResult searchResult = SearchResult.builder().build();
+            return searchResult;
+        });
+        similarityFinder.calculateJackardSimilarity(seq1, seq2);
+        int res = l.get();
+        assertEquals(res, seq1.length);
+    }
 }
