@@ -76,4 +76,36 @@ class SimilarityFinderTest {
         assertEquals(0.2d, result);
     }
 
+    @Test
+    void twoSameElementsInFourElemSequences_shouldReturnOneThird() {
+        int[] seq1 = {111,2,30,44};
+        int[] seq2 = {111,2,55,6};
+
+        // 2 / (4 + 4 - 2) = 0.3333...
+        double result = simFinder.calculateJackardSimilarity(seq1, seq2);
+
+        assertEquals(1.0d / 3.0d, result);
+    }
+
+    @Test
+    void differentSizeSequencesShorterSeqFirst_shouldReturnTwoThirds() {
+        int[] seq1 = {30,440,51,67777};
+        int[] seq2 = {1,11,30,440,51,67777};
+
+        // 4 / (4 + 6 - 4) = 0.66...
+        double result = simFinder.calculateJackardSimilarity(seq1, seq2);
+
+        assertEquals(4.0d / 6.0d, result);
+    }
+
+    @Test
+    void differentSizeSequencesLongerSeqFirst_shouldReturnTwoThirds() {
+        int[] seq1 = {10,2,33,4000,15,600};
+        int[] seq2 = {10,2,33,4000};
+
+        // 4 / (6 + 4 - 4) = 0.66...
+        double result = simFinder.calculateJackardSimilarity(seq1, seq2);
+
+        assertEquals(4.0d / 6.0d, result);
+    }
 }
