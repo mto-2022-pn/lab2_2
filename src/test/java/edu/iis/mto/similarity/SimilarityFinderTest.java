@@ -4,9 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import edu.iis.mto.searcher.SearchResult;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 class SimilarityFinderTest {
 
@@ -81,6 +82,34 @@ class SimilarityFinderTest {
         });
 
         assertEquals(2.0/(seq1.length + seq2.length - 2), similarityFinder.calculateJackardSimilarity(seq1, seq2));
+    }
+
+    @Test
+    void testInvokeFiveTimes() {
+        int[] seq1 = {1, 2, 3, 4, 7};
+        int[] seq2 = {5, 6, 8, 9};
+        AtomicInteger counter = new AtomicInteger(0);
+
+        similarityFinder=new SimilarityFinder((elem, sequence) -> {
+            counter.getAndIncrement();
+            return SearchResult.builder().build();
+        });
+        similarityFinder.calculateJackardSimilarity(seq1, seq2);
+        assertEquals(seq1.length, counter.get());
+    }
+
+    @Test
+    void testInvokeZeroTimes() {
+        int[] seq1 = {};
+        int[] seq2 = {5, 6, 8, 9};
+        AtomicInteger counter = new AtomicInteger(0);
+
+        similarityFinder=new SimilarityFinder((elem, sequence) -> {
+            counter.getAndIncrement();
+            return SearchResult.builder().build();
+        });
+        similarityFinder.calculateJackardSimilarity(seq1, seq2);
+        assertEquals(seq1.length, counter.get());
     }
 
 }
