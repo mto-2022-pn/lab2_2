@@ -34,7 +34,10 @@ class SimilarityFinderTest {
 
     @Test
     void arraysDontHaveAnyElementsInCommon() {
-        fail("Not yet implemented");
+        int[] seq1 = {1, 2, 3, 4};
+        int[] seq2 = {5, 6, 7, 8};
+        SimilarityFinder finder = new SimilarityFinder((element, sequence) -> SearchResult.builder().build());
+        assertEquals(0.0d, finder.calculateJackardSimilarity(seq1, seq2));
     }
 
     @Test
