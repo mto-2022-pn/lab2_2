@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import edu.iis.mto.searcher.SearchResult;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 class SimilarityFinderTest {
 
@@ -100,4 +100,42 @@ class SimilarityFinderTest {
         assertEquals(DIFFERENT_SEQUENCES, similarity);
     }
 
+    @Test void testIfFinderCalledSearch0Times(){
+        AtomicInteger callCounter= new AtomicInteger();
+        SimilarityFinder finder = new SimilarityFinder(((elem, sequence) -> {
+            callCounter.getAndIncrement();
+            return SearchResult.builder().build();
+        }));
+        int[] first_seq = {};
+        int[] second_seq = {2, 6, 7, 23, 29, 33};
+        int expectedNumberOfCalls = 0;
+        finder.calculateJackardSimilarity(first_seq, second_seq);
+        assertEquals(expectedNumberOfCalls, callCounter.get());
+    }
+
+    @Test void testIfFinderCalledSearch3Times(){
+        AtomicInteger callCounter= new AtomicInteger();
+        SimilarityFinder finder = new SimilarityFinder(((elem, sequence) -> {
+            callCounter.getAndIncrement();
+            return SearchResult.builder().build();
+        }));
+        int[] first_seq = {1, 5, 9};
+        int[] second_seq = {2, 6, 7, 23, 29, 33};
+        int expectedNumberOfCalls = 3;
+        finder.calculateJackardSimilarity(first_seq, second_seq);
+        assertEquals(expectedNumberOfCalls, callCounter.get());
+    }
+
+    @Test void testIfFinderCalledSearch6Times(){
+        AtomicInteger callCounter= new AtomicInteger();
+        SimilarityFinder finder = new SimilarityFinder(((elem, sequence) -> {
+            callCounter.getAndIncrement();
+            return SearchResult.builder().build();
+        }));
+        int[] first_seq = {1, 5, 9, 12, 16, 21};
+        int[] second_seq = {2, 6, 7};
+        int expectedNumberOfCalls = 6;
+        finder.calculateJackardSimilarity(first_seq, second_seq);
+        assertEquals(expectedNumberOfCalls, callCounter.get());
+    }
 }
