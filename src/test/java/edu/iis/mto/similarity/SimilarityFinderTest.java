@@ -18,12 +18,18 @@ class SimilarityFinderTest {
 
     @Test
     void firstArrayEmpty() {
-        fail("Not yet implemented");
+        int[] seq1 = {};
+        int[] seq2 = {1, 2, 3, 4};
+        SimilarityFinder finder = new SimilarityFinder((element, sequence) -> SearchResult.builder().build());
+        assertEquals(0.0d, finder.calculateJackardSimilarity(seq1, seq2));
     }
 
     @Test
     void secondArrayEmpty() {
-        fail("Not yet implemented");
+        int[] seq1 = {1, 2, 3, 4};
+        int[] seq2 = {};
+        SimilarityFinder finder = new SimilarityFinder((element, sequence) -> SearchResult.builder().build());
+        assertEquals(0.0d, finder.calculateJackardSimilarity(seq1, seq2));
     }
 
     @Test
